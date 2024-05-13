@@ -1,9 +1,6 @@
-# Function dependencies, for example:
-# package>=version
-
-line-bot-sdk
-requests
-git+https://github.com/ozgur/python-firebase
+line-bot-sdk==1.20.0
+requests==2.26.0
+firebase-admin==5.0.0
 google.generativeai
-pillow
-grpcio
+pillow==8.4.0
+grpcio==1.44.0
