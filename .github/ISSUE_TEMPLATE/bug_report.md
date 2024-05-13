@@ -1,10 +1,3 @@
----
-name: Bug Report
-about: Create a bug report
-labels: bug
-
----
-
 
 ## 發生了什麼事？
 <!-- Delete this section before the submit -->
