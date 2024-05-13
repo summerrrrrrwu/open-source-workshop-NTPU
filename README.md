@@ -1,10 +1,9 @@
 # Hello world LINE Bot on Cloud Functions
 
-
 ## Platforms Used
 
-- **LINE Developers**: To create and configure the LINEBot.
-- **Google Cloud Functions**: To deploy the Python code and generate a webhook for the LINEBot.
+- **LINE Developers**: Used to create and configure the LINEBot.
+- **Google Cloud Functions**: Used to deploy the Python code and generate a webhook for the LINEBot.
 
 ## LINEBot Creation
 
@@ -27,7 +26,6 @@ After creating the bot, find the Channel secret on the Basic Setting page and th
 ### Step 4: Finalize Bot Setup
 
 Set aside the bot for now. Once the program is deployed, paste the URL back into the Webhook URL field on the Messaging API page.
-
 
 ## Google Cloud Functions
 
