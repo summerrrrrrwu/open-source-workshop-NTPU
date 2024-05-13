@@ -43,7 +43,7 @@ def linebot(request):
                 msg = event['message']['text']
                 line_bot_api.show_loading_animation(chat_id=user_id, loading_seconds=20)
 
-                if msg == '!清空':
+                if msg == '!清空':gg
                     reply_msg = '已清空'
                     # Add functionality to clear data if needed
                 elif msg == '!摘要':
