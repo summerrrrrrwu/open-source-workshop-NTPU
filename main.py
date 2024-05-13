@@ -1,6 +1,4 @@
-from linebot.v3 import (
-    WebhookHandler
-)
+from linebot.v3 import WebhookHandler
 from linebot.v3.messaging import (
     Configuration,
     ApiClient,
@@ -11,42 +9,33 @@ from linebot.v3.messaging import (
 )
 import json
 import os
-import requests
-from PIL import Image
-from io import BytesIO
-from firebase import firebase
-import google.generativeai as genai
-
 
 # 使用環境變量讀取憑證
-secret = os.getenv('ChannelSecret', None)
-token = os.getenv('ChannelAccessToken', None)
-# firebase_url = os.getenv('FIREBASE_URL')
+CHANNEL_SECRET = os.getenv('ChannelSecret', None)
+CHANNEL_ACCESS_TOKEN = os.getenv('ChannelAccessToken', None)
 
-
-handler = WebhookHandler(secret)
+handler = WebhookHandler(CHANNEL_SECRET)
 configuration = Configuration(
-    access_token=token
+    access_token=CHANNEL_ACCESS_TOKEN
 )
 
-
 def linebot(request):
-    body = request.get_data(as_text=True)
-    json_data = json.loads(body)
     try:
-
+        body = request.get_data(as_text=True)
+        json_data = json.loads(body)
         signature = request.headers['X-Line-Signature']
         handler.handle(body, signature)
+        
         event = json_data['events'][0]
         reply_token = event['replyToken']
         user_id = event['source']['userId']
         msg_type = event['message']['type']
 
-        if msg_type == 'text':
-            msg = event['message']['text']
-
-            with ApiClient(configuration) as api_client:
-                line_bot_api = MessagingApi(api_client)
+        with ApiClient(configuration) as api_client:
+            line_bot_api = MessagingApi(api_client)
+            
+            if msg_type == 'text':
+                msg = event['message']['text']
                 line_bot_api.show_loading_animation(ShowLoadingAnimationRequest(
                     chatId=user_id, loadingSeconds=20))
 
@@ -63,18 +52,22 @@ def linebot(request):
                         reply_token=reply_token,
                         messages=[
                             TextMessage(text=reply_msg),
-                        ]))
-        else:
-            with ApiClient(configuration) as api_client:
-                line_bot_api = MessagingApi(api_client)
+                        ]
+                    )
+                )
+            else:
                 line_bot_api.reply_message(
                     ReplyMessageRequest(
                         reply_token=reply_token,
                         messages=[
                             TextMessage(text='你傳的不是文字訊息喔'),
-                        ]))
-
+                        ]
+                    )
+                )
+        return 'OK'
+    
     except Exception as e:
-        detail = e.args[0]
-        print(detail)
-    return 'OK'
+        # 記錄錯誤詳情
+        print(f"An error occurred: {e}")
+        return 'Error'
+
